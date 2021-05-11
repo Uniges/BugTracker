@@ -32,7 +32,8 @@ namespace BugTracker.WebApp
             services.AddControllers();
             services.AddScoped<IBugService, BugService>();
             services.AddDbContext<AppDbContext>(builder =>
-                builder.UseSqlServer(Configuration.GetConnectionString("MsSql")));
+                //builder.UseSqlServer(Configuration.GetConnectionString("MsSql")));
+                builder.UseNpgsql("Host=localhost;Port=5432;Database=shema4;Username=postgres;Password=postgres"));
 
             //services.AddAutoMapper(typeof(MapperProfile));
             var mappingConfig = new MapperConfiguration(mc =>

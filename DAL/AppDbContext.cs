@@ -11,6 +11,7 @@ namespace BugTracker.DAL
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+            Database.EnsureCreated();
         }
 
         public DbSet<Bug> Bugs { get; set; }
@@ -21,8 +22,9 @@ namespace BugTracker.DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Bug>().HasKey(x => new { x.UserId });
-            modelBuilder.Entity<BugHistory>().HasKey(x => new { x.UserId, x.BugId });
+            //modelBuilder.Entity<User>().HasKey(x => new { x.Id });
+            //modelBuilder.Entity<Bug>().HasKey(x => new { x.Id, x.UserId });
+            //modelBuilder.Entity<BugHistory>().HasKey(x => new { x.BugHistoryId, x.BugId });
 
             modelBuilder.Entity<User>().HasData(new List<User>()
             {
@@ -38,8 +40,8 @@ namespace BugTracker.DAL
 
             modelBuilder.Entity<BugHistory>().HasData(new List<BugHistory>()
             {
-                new BugHistory {Id = 1, BugId = 1, Action = BugAction.Input },
-                new BugHistory {Id = 2, BugId = 2, Action = BugAction.Input }
+                new BugHistory {Id = 1, Action = BugAction.Input, BugId = 1 },
+                new BugHistory {Id = 2, Action = BugAction.Input, BugId = 2 }
             });
         }
 

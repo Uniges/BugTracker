@@ -21,10 +21,14 @@ namespace BugTracker.Applicaton
 
         public async Task<BugDto> GetByIdAsync(int id)
         {
+            //var bug = await _dbContext.Bugs
+            //    .AsNoTracking()
+            //    //.Include(x => x.History).ThenInclude(x => x.Date)
+            //    .Include(x => x.User)
+            //    .FirstOrDefaultAsync(x => x.Id == id);
             var bug = await _dbContext.Bugs
                 .AsNoTracking()
-                //.Include(x => x.History).ThenInclude(x => x.Date)
-                .Include(x => x.User)
+                .Include(x => x.User).Include(x => x.History)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (bug == null) throw new BugNotFoundException();
