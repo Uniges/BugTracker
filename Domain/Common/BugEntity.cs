@@ -1,5 +1,4 @@
-﻿using BugTracker.Domain.Entities;
-using System;
+﻿using System;
 
 namespace BugTracker.Domain.Common
 {

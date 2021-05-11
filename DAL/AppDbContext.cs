@@ -22,9 +22,7 @@ namespace BugTracker.DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<User>().HasKey(x => new { x.Id });
-            //modelBuilder.Entity<Bug>().HasKey(x => new { x.Id, x.UserId });
-            //modelBuilder.Entity<BugHistory>().HasKey(x => new { x.BugHistoryId, x.BugId });
+            #region Init test data
 
             modelBuilder.Entity<User>().HasData(new List<User>()
             {
@@ -43,6 +41,8 @@ namespace BugTracker.DAL
                 new BugHistory {Id = 1, Action = BugAction.Input, BugId = 1 },
                 new BugHistory {Id = 2, Action = BugAction.Input, BugId = 2 }
             });
+
+            #endregion
         }
 
     }

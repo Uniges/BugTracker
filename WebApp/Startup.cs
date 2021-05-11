@@ -3,17 +3,10 @@ using BugTracker.Applicaton;
 using BugTracker.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BugTracker.WebApp
 {
@@ -32,10 +25,8 @@ namespace BugTracker.WebApp
             services.AddControllers();
             services.AddScoped<IBugService, BugService>();
             services.AddDbContext<AppDbContext>(builder =>
-                //builder.UseSqlServer(Configuration.GetConnectionString("MsSql")));
-                builder.UseNpgsql("Host=localhost;Port=5432;Database=shema4;Username=postgres;Password=postgres"));
+                builder.UseNpgsql(Configuration.GetConnectionString("PgSql")));
 
-            //services.AddAutoMapper(typeof(MapperProfile));
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MapperProfile());

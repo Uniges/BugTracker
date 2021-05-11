@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BugTracker.Domain.Enums
+﻿namespace BugTracker.Domain.Enums
 {
     public enum BugAction
     {
