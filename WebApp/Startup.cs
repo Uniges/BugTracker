@@ -48,7 +48,8 @@ namespace BugTracker.WebApp
 
             services.AddScoped<IRepository<Bug>, BugRepository>();
             services.AddScoped<IRepository<User>, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRepository<BugHistory>, BugHistoryRepository>();
+            //services.AddScoped<IUserService, UserService>();
             #endregion
 
             #region FAILED UPDATED

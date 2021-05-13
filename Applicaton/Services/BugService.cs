@@ -13,10 +13,12 @@ namespace BugTracker.Applicaton.Services
     public class BugService : IBugService
     {
         private readonly IRepository<Bug> _bugRepository;
+        private readonly IRepository<BugHistory> _bugHistoryRepository;
 
-        public BugService(IRepository<Bug> bugRepository)
+        public BugService(IRepository<Bug> bugRepository, IRepository<BugHistory> bugHistoryRepository)
         {
             _bugRepository = bugRepository;
+            _bugHistoryRepository = bugHistoryRepository;
         }
 
         public async Task<IEnumerable<Bug>> GetAllAsync()
@@ -30,7 +32,7 @@ namespace BugTracker.Applicaton.Services
             return bug;
         }
 
-        public async Task AddAsync(Bug entity)
+        private async Task AddAsync(Bug entity)
         {
             await _bugRepository.AddAsync(entity);
         }
@@ -75,6 +77,21 @@ namespace BugTracker.Applicaton.Services
             }
 
             return sortedResult;
+        }
+
+        public async Task CreateByUserAsync(BugRequest bugRequest, int userId)
+        {
+            Bug bug = new Bug();
+            bug.UserId = userId;
+            bug.Title = bugRequest.Title;
+            bug.Description = bugRequest.Description;
+            bug.Status = bugRequest.Status;
+            bug.Urgency = bugRequest.Urgency;
+            bug.Criticality = bugRequest.Criticality;
+
+            await AddAsync(bug);
+            //BugHistory bugHistory = new BugHistory();
+            //bugHistory.BugId
         }
     }
 }

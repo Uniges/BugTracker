@@ -7,6 +7,7 @@ using BugTracker.Domain.Entities;
 using BugTracker.WebApp.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BugTracker.WebApp.Controllers
@@ -34,6 +35,8 @@ namespace BugTracker.WebApp.Controllers
         [HttpGet("{id}")]
         public async Task<Bug> Get(int id)
         {
+            //var user = HttpContext.Items["User"] as User;
+            //;
             var result = await _bugService.GetByIdAsync(id);
             return result;
         }
@@ -42,7 +45,6 @@ namespace BugTracker.WebApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<Bug>> GetAll()
         {
-            //var result = await _bugService.GetByIdAsync(id);
             var result = await _bugService.GetAllAsync();
             return result;
         }
@@ -58,10 +60,13 @@ namespace BugTracker.WebApp.Controllers
             //    return BadRequest("TripOrder is null");
             //}
             //return Ok("TripOrder created");
+        }
 
-
-
-            //return Ok("TripOrder created");
+        [HttpPost("Create")]
+        public async Task Create(BugRequest bugRequest)
+        {
+            //var user = HttpContext.Items["User"] as User;
+            await _bugService.CreateByUserAsync(bugRequest, (HttpContext.Items["User"] as User).Id);
         }
     }
 }
