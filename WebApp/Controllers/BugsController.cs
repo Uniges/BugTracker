@@ -62,11 +62,19 @@ namespace BugTracker.WebApp.Controllers
             //return Ok("TripOrder created");
         }
 
+        [Authorize]
         [HttpPost("Create")]
         public async Task Create(BugRequest bugRequest)
         {
             //var user = HttpContext.Items["User"] as User;
             await _bugService.CreateByUserAsync(bugRequest, (HttpContext.Items["User"] as User).Id);
+        }
+
+        [Authorize]
+        [HttpPut("Edit")]
+        public async Task Update(BugUpdateRequest bugUpdateRequest)
+        {
+            await _bugService.UpdateByUserAsync(bugUpdateRequest);
         }
     }
 }

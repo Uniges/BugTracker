@@ -23,13 +23,17 @@ namespace BugTracker.WebApp
             {
                 await _next(httpContext);
             }
+            catch (UserNotFoundException e)
+            {
+                httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+            }
             catch (BugNotFoundException e)
             {
                 httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
             }
-            catch (UserNotFoundException e)
+            catch (BugUpdateException e)
             {
-                httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             }
         }
     }

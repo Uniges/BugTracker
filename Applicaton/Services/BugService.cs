@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using BugTracker.Domain.Enums;
+using BugTracker.Applicaton.Exceptions;
 
 namespace BugTracker.Applicaton.Services
 {
@@ -29,6 +31,7 @@ namespace BugTracker.Applicaton.Services
         public async Task<Bug> GetByIdAsync(int id)
         {
             var bug = await _bugRepository.GetByIdAsync(id);
+            if (bug == null) throw new BugNotFoundException();
             return bug;
         }
 
@@ -37,7 +40,7 @@ namespace BugTracker.Applicaton.Services
             await _bugRepository.AddAsync(entity);
         }
 
-        public async Task UpdateAsync(Bug entity)
+        private async Task UpdateAsync(Bug entity)
         {
             await _bugRepository.UpdateAsync(entity);
         }
@@ -90,8 +93,53 @@ namespace BugTracker.Applicaton.Services
             bug.Criticality = bugRequest.Criticality;
 
             await AddAsync(bug);
-            //BugHistory bugHistory = new BugHistory();
-            //bugHistory.BugId
+            ;
+            BugHistory bugHistory = new BugHistory();
+            bugHistory.BugId = bug.Id;
+            bugHistory.Action = BugAction.Input;
+            bugHistory.Comment = bugRequest.Comment;
+            await _bugHistoryRepository.AddAsync(bugHistory);
+            ;
+        }
+
+        public async Task UpdateByUserAsync(BugUpdateRequest bugUpdateRequest)
+        {
+            var bug = await GetByIdAsync(bugUpdateRequest.BugId);
+            BugStatus currentStatus = bug.Status;
+            BugStatus newStatus = bugUpdateRequest.BugStatus;
+
+            ;
+
+            bool isTransferPossible =
+                (currentStatus == BugStatus.New && newStatus == BugStatus.Opened) ||
+                (currentStatus == BugStatus.Opened && newStatus == BugStatus.Fixed) ||
+                (currentStatus == BugStatus.Fixed && newStatus == BugStatus.Opened) ||
+                (currentStatus == BugStatus.Fixed && newStatus == BugStatus.Closed);
+            if (!isTransferPossible) throw new BugUpdateException();
+
+            bug.Status = bugUpdateRequest.BugStatus;
+            await UpdateAsync(bug);
+
+            ;
+
+            BugHistory bugHistory = new BugHistory();
+            bugHistory.BugId = bug.Id;
+            switch (bugUpdateRequest.BugStatus)
+            {
+                case BugStatus.Opened:
+                    bugHistory.Action = BugAction.Open;
+                    break;
+                case BugStatus.Fixed:
+                    bugHistory.Action = BugAction.Solution;
+                    break;
+                case BugStatus.Closed:
+                    bugHistory.Action = BugAction.Close;
+                    break;
+            }
+            bugHistory.Comment = bugUpdateRequest.Comment;
+            await _bugHistoryRepository.AddAsync(bugHistory);
+
+            ;
         }
     }
 }

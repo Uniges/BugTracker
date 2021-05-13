@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Text;
 
-namespace BugTracker.Applicaton
-{
-    public class BugNotFoundException : Exception
-    {
-    }
-}
+//namespace BugTracker.Applicaton
+//{
+//    public class BugNotFoundException : Exception
+//    {
+//    }
+//}
