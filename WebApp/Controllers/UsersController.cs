@@ -16,29 +16,36 @@ namespace BugTracker.WebApp.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
 
-        public UserController(IUserService userService, IConfiguration configuration)
+        public UsersController(IUserService userService, IConfiguration configuration)
         {
             _userService = userService;
             _configuration = configuration;
         }
 
-        [Authorize]
-        [HttpGet("{id}")]
-        public async Task<User> Get(int id)
-        {
-            return await _userService.GetByIdAsync(id);
-        }
+        //[Authorize]
+        //[HttpGet("{id}")]
+        //public async Task<User> Get(int id)
+        //{
+        //    return await _userService.GetByIdAsync(id);
+        //}
 
         [HttpPost("auth")]
         public async Task<JsonResult> Auth(UserRequest userRequest)
         {
             return new JsonResult(new { token = _configuration.GenerateJwtToken(await _userService.AuthorizationAsync(userRequest)) }) { StatusCode = StatusCodes.Status200OK };
             //return Ok("TripOrder created");
+        }
+
+        [Authorize]
+        [HttpPut("edit")]
+        public async Task Update(UserUpdateRequest userUpdateRequest)
+        {
+            await _userService.UpdateByUserAsync(userUpdateRequest);
         }
     }
 }

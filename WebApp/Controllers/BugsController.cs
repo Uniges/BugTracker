@@ -18,18 +18,10 @@ namespace BugTracker.WebApp.Controllers
     {
         private readonly IBugService _bugService;
 
-        public BugsController(IBugService bugService/*, IRepository<Bug> bugContext*/)
+        public BugsController(IBugService bugService)
         {
             _bugService = bugService;
-            //_bugContext = bugContext;
         }
-
-        //[HttpGet("{id}")]
-        //public async Task<BugDto> Get(int id)
-        //{
-        //    var result = await _bugService.GetByIdAsync(id);
-        //    return result;
-        //}
 
         [Authorize]
         [HttpGet("{id}")]
@@ -63,18 +55,24 @@ namespace BugTracker.WebApp.Controllers
         }
 
         [Authorize]
-        [HttpPost("Create")]
+        [HttpPost("create")]
         public async Task Create(BugInputRequest bugRequest)
         {
-            //var user = HttpContext.Items["User"] as User;
             await _bugService.CreateByUserAsync(bugRequest, (HttpContext.Items["User"] as User).Id);
         }
 
         [Authorize]
-        [HttpPut("Edit")]
+        [HttpPut("edit")]
         public async Task Update(BugUpdateRequest bugUpdateRequest)
         {
             await _bugService.UpdateByUserAsync(bugUpdateRequest);
+        }
+
+        [Authorize]
+        [HttpGet("history/{id}")]
+        public async Task<ICollection<BugHistory>> GetBugHistory(int id)
+        {
+            return await _bugService.GetBugHistoryAsync(id);
         }
     }
 }

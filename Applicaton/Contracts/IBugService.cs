@@ -12,9 +12,8 @@ namespace BugTracker.Applicaton.Contracts
         public Task<IEnumerable<Bug>> GetAllAsync();
         public Task<Bug> GetByIdAsync(int id);
         public Task UpdateByUserAsync(BugUpdateRequest entity);
-        //public Task AddAsync(Bug entity);
         public Task CreateByUserAsync(BugInputRequest bugRequest, int userId);
         public Task<IEnumerable<Bug>> GetAllSortedAsync(BugSortRequest entity);
-        //public Task DeleteByIdAsync(int id);
+        public Task<ICollection<BugHistory>> GetBugHistoryAsync(int id);
     }
 }

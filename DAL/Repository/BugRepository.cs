@@ -47,5 +47,15 @@ namespace BugTracker.DAL.Repository
             context.Bugs.Remove(bug);
             await context.SaveChangesAsync();
         }
+
+        public async Task<ICollection<BugHistory>> GetBugHistoryAsync(int id)
+        {
+            var bug = await context.Bugs
+                .AsNoTracking()
+                .Include(x => x.History)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (bug == null) return null;
+            return bug.History.OrderBy(x => x.Date).ToList();
+        }
     }
 }

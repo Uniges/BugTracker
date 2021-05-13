@@ -39,9 +39,17 @@ namespace BugTracker.Applicaton.Services
             return await _userRepository.GetByIdAsync(id);
         }
 
-        public Task UpdateAsync(User entity)
+        private async Task UpdateAsync(User entity)
         {
-            throw new NotImplementedException();
+            await _userRepository.UpdateAsync(entity);
+        }
+
+        public async Task UpdateByUserAsync(UserUpdateRequest entity)
+        {
+            var user = await GetByIdAsync(entity.Id);
+            user.Name = entity.Name;
+            user.LastName = entity.LastName;
+            await UpdateAsync(user);
         }
     }
 }

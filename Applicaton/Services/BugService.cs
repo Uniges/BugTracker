@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using BugTracker.Domain.Enums;
 using BugTracker.Applicaton.Exceptions;
+using BugTracker.DAL.Repository;
 
 namespace BugTracker.Applicaton.Services
 {
@@ -108,8 +109,6 @@ namespace BugTracker.Applicaton.Services
             BugStatus currentStatus = bug.Status;
             BugStatus newStatus = bugUpdateRequest.BugStatus;
 
-            ;
-
             bool isTransferPossible =
                 (currentStatus == BugStatus.New && newStatus == BugStatus.Opened) ||
                 (currentStatus == BugStatus.Opened && newStatus == BugStatus.Fixed) ||
@@ -119,8 +118,6 @@ namespace BugTracker.Applicaton.Services
 
             bug.Status = bugUpdateRequest.BugStatus;
             await UpdateAsync(bug);
-
-            ;
 
             BugHistory bugHistory = new BugHistory();
             bugHistory.BugId = bug.Id;
@@ -138,8 +135,13 @@ namespace BugTracker.Applicaton.Services
             }
             bugHistory.Comment = bugUpdateRequest.Comment;
             await _bugHistoryRepository.AddAsync(bugHistory);
+        }
 
-            ;
+        public async Task<ICollection<BugHistory>> GetBugHistoryAsync(int id)
+        {
+            var bugHistory = await (_bugRepository as BugRepository).GetBugHistoryAsync(id);
+            if (bugHistory == null) throw new BugNotFoundException();
+            return bugHistory;
         }
     }
 }
