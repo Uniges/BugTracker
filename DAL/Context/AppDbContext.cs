@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BugTracker.DAL
+namespace BugTracker.DAL.Context
 {
     public class AppDbContext : DbContext
     {

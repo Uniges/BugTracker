@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BugTracker.DAL;
+using BugTracker.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
