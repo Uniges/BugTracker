@@ -64,7 +64,7 @@ namespace BugTracker.WebApp.Controllers
 
         [Authorize]
         [HttpPost("Create")]
-        public async Task Create(BugRequest bugRequest)
+        public async Task Create(BugInputRequest bugRequest)
         {
             //var user = HttpContext.Items["User"] as User;
             await _bugService.CreateByUserAsync(bugRequest, (HttpContext.Items["User"] as User).Id);

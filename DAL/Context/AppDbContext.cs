@@ -22,8 +22,11 @@ namespace BugTracker.DAL.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            #region Init test data
+            InitStubData(modelBuilder);
+        }
 
+        private void InitStubData(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<User>().HasData(new List<User>()
             {
                 new User {Id = 1, Name = "Alex", LastName = "Rock", Login = "Alex55", Password = "321" },
@@ -41,9 +44,6 @@ namespace BugTracker.DAL.Context
                 new BugHistory {Id = 1, Action = BugAction.Input, BugId = 1 },
                 new BugHistory {Id = 2, Action = BugAction.Input, BugId = 2 }
             });
-
-            #endregion
         }
-
     }
 }

@@ -82,13 +82,13 @@ namespace BugTracker.Applicaton.Services
             return sortedResult;
         }
 
-        public async Task CreateByUserAsync(BugRequest bugRequest, int userId)
+        public async Task CreateByUserAsync(BugInputRequest bugRequest, int userId)
         {
             Bug bug = new Bug();
             bug.UserId = userId;
             bug.Title = bugRequest.Title;
             bug.Description = bugRequest.Description;
-            bug.Status = bugRequest.Status;
+            bug.Status = BugStatus.New;
             bug.Urgency = bugRequest.Urgency;
             bug.Criticality = bugRequest.Criticality;
 

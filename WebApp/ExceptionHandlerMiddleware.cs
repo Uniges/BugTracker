@@ -25,7 +25,7 @@ namespace BugTracker.WebApp
             }
             catch (UserNotFoundException e)
             {
-                httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             }
             catch (BugNotFoundException e)
             {
