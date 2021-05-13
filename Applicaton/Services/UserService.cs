@@ -30,13 +30,15 @@ namespace BugTracker.Applicaton.Services
         {
             var users = await _userRepository.GetAllAsync();
             var currentUser = users.FirstOrDefault(e => e.Login == entity.Login && e.Password == entity.Password);
-            if (currentUser == null) throw new UserNotFoundException();
+            if (currentUser == null) throw new UserAuthException();
             return currentUser;
         }
 
         public async Task<User> GetByIdAsync(int id)
         {
-            return await _userRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null) throw new UserNotFoundException();
+            return user;
         }
 
         private async Task UpdateAsync(User entity)
@@ -46,7 +48,7 @@ namespace BugTracker.Applicaton.Services
 
         public async Task UpdateByUserAsync(UserUpdateRequest entity)
         {
-            var user = await GetByIdAsync(entity.Id);
+            var user = await GetByIdAsync(entity.UserId);
             user.Name = entity.Name;
             user.LastName = entity.LastName;
             await UpdateAsync(user);
