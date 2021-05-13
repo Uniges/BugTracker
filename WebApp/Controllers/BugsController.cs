@@ -1,7 +1,9 @@
 ﻿using BugTracker.Applicaton;
+using BugTracker.Applicaton.Contracts;
 using BugTracker.DAL.Repository;
 using BugTracker.DAL.Repository.Common;
 using BugTracker.Domain.Entities;
+using BugTracker.WebApp.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -28,6 +30,7 @@ namespace BugTracker.WebApp.Controllers
         //    return result;
         //}
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<Bug> Get(int id)
         {
@@ -35,8 +38,9 @@ namespace BugTracker.WebApp.Controllers
             return result;
         }
 
+        [Authorize]
         [HttpGet]
-        public async Task<IEnumerable<Bug>> Get()
+        public async Task<IEnumerable<Bug>> GetAll()
         {
             //var result = await _bugService.GetByIdAsync(id);
             var result = await _bugContext.GetAllAsync();

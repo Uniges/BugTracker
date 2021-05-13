@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BugTracker.Applicaton.Dto
+namespace BugTracker.Applicaton.Models
 {
     public class BugSortRequest
     {

@@ -1,4 +1,5 @@
 ﻿using BugTracker.Applicaton;
+using BugTracker.Applicaton.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using System.Net;
@@ -23,6 +24,10 @@ namespace BugTracker.WebApp
                 await _next(httpContext);
             }
             catch (BugNotFoundException e)
+            {
+                httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+            }
+            catch (UserNotFoundException e)
             {
                 httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
             }

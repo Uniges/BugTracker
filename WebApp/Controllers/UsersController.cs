@@ -17,7 +17,6 @@ namespace BugTracker.WebApp.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        //private readonly IRepository<User> _userService;
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
 
@@ -32,7 +31,6 @@ namespace BugTracker.WebApp.Controllers
         public async Task<User> Get(int id)
         {
             return await _userService.GetByIdAsync(id);
-            //return result;
         }
 
         [HttpPost("auth")]

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper.Configuration;
+using BugTracker.Applicaton.Exceptions;
 
 namespace BugTracker.Applicaton.Services
 {
@@ -29,14 +30,7 @@ namespace BugTracker.Applicaton.Services
         {
             var users = await _userRepository.GetAllAsync();
             var currentUser = users.FirstOrDefault(e => e.Login == entity.Login && e.Password == entity.Password);
-
-            //UserResponse userResponse = new UserResponse() { IsSuccess = false };
-
-            //if (currentUser == null) return userResponse;
-
-            //userResponse.IsSuccess = true;
-
-            //return userResponse;
+            if (currentUser == null) throw new UserNotFoundException();
             return currentUser;
         }
 

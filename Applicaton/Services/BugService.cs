@@ -1,5 +1,5 @@
 ﻿using BugTracker.Applicaton.Contracts;
-using BugTracker.Applicaton.Dto;
+using BugTracker.Applicaton.Models;
 using BugTracker.DAL.Repository.Common;
 using BugTracker.Domain.Entities;
 using System;
@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace BugTracker.Applicaton.Services
 {
-    public class BugService : IBugService<Bug>
+    public class BugService : IBugService
     {
         private readonly IRepository<Bug> _bugRepository;
 

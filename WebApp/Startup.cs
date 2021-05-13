@@ -31,9 +31,8 @@ namespace BugTracker.WebApp
         {
             #region OLD
             services.AddControllers();
-            services.AddScoped<IBugService, Applicaton.BugService>();
-
-            services.AddScoped<IUserService/*<User>*/, UserService>();
+            services.AddScoped<IBugService, BugService>();
+            services.AddScoped<IUserService, UserService>();
 
 
             services.AddDbContext<AppDbContext>(builder =>
@@ -49,7 +48,7 @@ namespace BugTracker.WebApp
 
             services.AddScoped<IRepository<Bug>, BugRepository>();
             services.AddScoped<IRepository<User>, UserRepository>();
-            services.AddScoped<IUserService/*<User>*/, UserService>();
+            services.AddScoped<IUserService, UserService>();
             #endregion
 
             #region FAILED UPDATED

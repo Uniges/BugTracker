@@ -1,4 +1,5 @@
-﻿using BugTracker.Applicaton.Dto;
+﻿using BugTracker.Applicaton.Models;
+using BugTracker.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace BugTracker.Applicaton.Contracts
 {
-    public interface IBugService<T> where T : class
+    public interface IBugService
     {
-        public Task<IEnumerable<T>> GetAllAsync();
-        public Task<T> GetByIdAsync(int id);
-        public Task UpdateAsync(T entity);
-        public Task AddAsync(T entity);
-        public Task<IEnumerable<T>> GetAllSortedAsync(BugSortRequest entity);
+        public Task<IEnumerable<Bug>> GetAllAsync();
+        public Task<Bug> GetByIdAsync(int id);
+        public Task UpdateAsync(Bug entity);
+        public Task AddAsync(Bug entity);
+        public Task<IEnumerable<Bug>> GetAllSortedAsync(BugSortRequest entity);
         //public Task DeleteByIdAsync(int id);
     }
 }
