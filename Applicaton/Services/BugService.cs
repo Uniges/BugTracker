@@ -26,7 +26,8 @@ namespace BugTracker.Applicaton.Services
 
         public async Task<Bug> GetByIdAsync(int id)
         {
-            return await GetByIdAsync(id);
+            var bug = await _bugRepository.GetByIdAsync(id);
+            return bug;
         }
 
         public async Task AddAsync(Bug entity)

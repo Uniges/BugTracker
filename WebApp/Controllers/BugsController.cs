@@ -1,5 +1,6 @@
 ﻿using BugTracker.Applicaton;
 using BugTracker.Applicaton.Contracts;
+using BugTracker.Applicaton.Models;
 using BugTracker.DAL.Repository;
 using BugTracker.DAL.Repository.Common;
 using BugTracker.Domain.Entities;
@@ -15,12 +16,11 @@ namespace BugTracker.WebApp.Controllers
     public class BugsController : ControllerBase
     {
         private readonly IBugService _bugService;
-        private readonly IRepository<Bug> _bugContext;
 
-        public BugsController(IBugService bugService, IRepository<Bug> bugContext)
+        public BugsController(IBugService bugService/*, IRepository<Bug> bugContext*/)
         {
             _bugService = bugService;
-            _bugContext = bugContext;
+            //_bugContext = bugContext;
         }
 
         //[HttpGet("{id}")]
@@ -34,7 +34,7 @@ namespace BugTracker.WebApp.Controllers
         [HttpGet("{id}")]
         public async Task<Bug> Get(int id)
         {
-            var result = await _bugContext.GetByIdAsync(id);
+            var result = await _bugService.GetByIdAsync(id);
             return result;
         }
 
@@ -43,8 +43,25 @@ namespace BugTracker.WebApp.Controllers
         public async Task<IEnumerable<Bug>> GetAll()
         {
             //var result = await _bugService.GetByIdAsync(id);
-            var result = await _bugContext.GetAllAsync();
+            var result = await _bugService.GetAllAsync();
             return result;
+        }
+
+        [Authorize]
+        [HttpPost("sort")]
+        public async Task<IEnumerable<Bug>> Sort(BugSortRequest bugSortRequest)
+        {
+            return await _bugService.GetAllSortedAsync(bugSortRequest);
+
+            //if (userRequest == null)
+            //{
+            //    return BadRequest("TripOrder is null");
+            //}
+            //return Ok("TripOrder created");
+
+
+
+            //return Ok("TripOrder created");
         }
     }
 }

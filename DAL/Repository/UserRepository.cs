@@ -21,12 +21,12 @@ namespace BugTracker.DAL.Repository
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return await context.Users.ToListAsync();
+            return await context.Users.AsNoTracking().ToListAsync();
         }
 
         public async Task<User> GetByIdAsync(int id)
         {
-            return await context.Users.FirstOrDefaultAsync(e => e.Id == id);
+            return await context.Users.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task AddAsync(User entity)

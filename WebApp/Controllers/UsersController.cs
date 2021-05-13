@@ -4,6 +4,7 @@ using BugTracker.Applicaton.Services;
 using BugTracker.DAL.Repository.Common;
 using BugTracker.Domain.Entities;
 using BugTracker.WebApp.Helpers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -34,18 +35,9 @@ namespace BugTracker.WebApp.Controllers
         }
 
         [HttpPost("auth")]
-        public async Task<UserResponse> Auth(UserRequest userRequest)
+        public async Task<JsonResult> Auth(UserRequest userRequest)
         {
-            //if (userRequest == null)
-            //{
-            //    return BadRequest("TripOrder is null");
-            //}
-            //return Ok("TripOrder created");
-
-            var user = await _userService.AuthorizationAsync(userRequest);
-            var token = _configuration.GenerateJwtToken(user);
-            return new UserResponse() { Token = token };
-
+            return new JsonResult(new { token = _configuration.GenerateJwtToken(await _userService.AuthorizationAsync(userRequest)) }) { StatusCode = StatusCodes.Status200OK };
             //return Ok("TripOrder created");
         }
     }
