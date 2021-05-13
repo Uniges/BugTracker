@@ -9,7 +9,7 @@ namespace BugTracker.Applicaton.Contracts
 {
     public interface IUserService
     {
-        public Task<UserResponse> AuthorizationAsync(UserRequest entity);
+        public Task<User> AuthorizationAsync(UserRequest entity);
         public Task UpdateAsync(User entity);
         #region TEMP
         public Task<User> GetByIdAsync(int id);

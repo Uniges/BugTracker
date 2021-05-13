@@ -7,6 +7,7 @@ using BugTracker.DAL.Context;
 using BugTracker.DAL.Repository;
 using BugTracker.DAL.Repository.Common;
 using BugTracker.Domain.Entities;
+using BugTracker.WebApp.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -85,6 +86,7 @@ namespace BugTracker.WebApp
             }
 
             app.UseExceptionHandlerMiddleware();
+            app.UseMiddleware<JwtMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseRouting();

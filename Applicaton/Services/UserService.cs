@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper.Configuration;
 
 namespace BugTracker.Applicaton.Services
 {
@@ -24,19 +25,19 @@ namespace BugTracker.Applicaton.Services
             //_mapper = mapper;
         }
 
-        public async Task<UserResponse> AuthorizationAsync(UserRequest entity)
+        public async Task<User> AuthorizationAsync(UserRequest entity)
         {
             var users = await _userRepository.GetAllAsync();
             var currentUser = users.FirstOrDefault(e => e.Login == entity.Login && e.Password == entity.Password);
 
-            UserResponse userResponse = new UserResponse() { IsSuccess = false };
+            //UserResponse userResponse = new UserResponse() { IsSuccess = false };
 
-            if (currentUser == null) return userResponse;
+            //if (currentUser == null) return userResponse;
 
-            userResponse.IsSuccess = true;
-            userResponse.Token = "token";
+            //userResponse.IsSuccess = true;
 
-            return userResponse;
+            //return userResponse;
+            return currentUser;
         }
 
         public async Task<User> GetByIdAsync(int id)

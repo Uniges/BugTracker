@@ -3,7 +3,9 @@ using BugTracker.Applicaton.Models;
 using BugTracker.Applicaton.Services;
 using BugTracker.DAL.Repository.Common;
 using BugTracker.Domain.Entities;
+using BugTracker.WebApp.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +19,15 @@ namespace BugTracker.WebApp.Controllers
     {
         //private readonly IRepository<User> _userService;
         private readonly IUserService _userService;
+        private readonly IConfiguration _configuration;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IConfiguration configuration)
         {
             _userService = userService;
+            _configuration = configuration;
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<User> Get(int id)
         {
@@ -39,7 +44,9 @@ namespace BugTracker.WebApp.Controllers
             //}
             //return Ok("TripOrder created");
 
-            return await _userService.AuthorizationAsync(userRequest);
+            var user = await _userService.AuthorizationAsync(userRequest);
+            var token = _configuration.GenerateJwtToken(user);
+            return new UserResponse() { Token = token };
 
             //return Ok("TripOrder created");
         }
