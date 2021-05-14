@@ -2,14 +2,14 @@
 using BugTracker.Applicaton.Models;
 using BugTracker.DAL.Repository.Common;
 using BugTracker.Domain.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using BugTracker.Domain.Enums;
 using BugTracker.Applicaton.Exceptions;
 using BugTracker.DAL.Repository;
+using AutoMapper;
+using BugTracker.Applicaton.Helpers;
 
 namespace BugTracker.Applicaton.Services
 {
@@ -17,11 +17,13 @@ namespace BugTracker.Applicaton.Services
     {
         private readonly IRepository<Bug> _bugRepository;
         private readonly IRepository<BugHistory> _bugHistoryRepository;
+        private readonly IMapper _mapper;
 
-        public BugService(IRepository<Bug> bugRepository, IRepository<BugHistory> bugHistoryRepository)
+        public BugService(IRepository<Bug> bugRepository, IRepository<BugHistory> bugHistoryRepository, IMapper mapper)
         {
             _bugRepository = bugRepository;
             _bugHistoryRepository = bugHistoryRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<Bug>> GetAllAsync()
@@ -50,57 +52,25 @@ namespace BugTracker.Applicaton.Services
         {
             var bugs = await _bugRepository.GetAllAsync();
 
-            var sortedResult = entity.IsSortByDesc ? bugs.OrderByDescending(e => e.Date) : bugs.OrderBy(e => e.Date);
+            if (typeof(Bug).GetProperty(entity.FieldName) == null) throw new BugInputPropertyException();
 
-            switch (entity.FieldName.ToLower())
-            {
-
-                case "title":
-                    sortedResult = entity.IsSortByDesc ? bugs.OrderByDescending(e => e.Title) : bugs.OrderBy(e => e.Title);
-                    break;
-
-                case "date":
-                    sortedResult = entity.IsSortByDesc ? bugs.OrderByDescending(e => e.Date) : bugs.OrderBy(e => e.Date);
-                    break;
-
-                case "status":
-                    sortedResult = entity.IsSortByDesc ? bugs.OrderByDescending(e => e.Status) : bugs.OrderBy(e => e.Status);
-                    break;
-
-                case "urgency":
-                    sortedResult = entity.IsSortByDesc ? bugs.OrderByDescending(e => e.Urgency) : bugs.OrderBy(e => e.Urgency);
-                    break;
-
-                case "criticality":
-                    sortedResult = entity.IsSortByDesc ? bugs.OrderByDescending(e => e.Criticality) : bugs.OrderBy(e => e.Criticality);
-                    break;
-
-                default:
-                    sortedResult = entity.IsSortByDesc ? bugs.OrderByDescending(e => e.Id) : bugs.OrderBy(e => e.Id);
-                    break;
-            }
-
-            return sortedResult;
+            return entity.IsSortByDesc ?
+                bugs.OrderBy(entity.FieldName) :
+                bugs.OrderByDescending(entity.FieldName);
         }
 
         public async Task CreateByUserAsync(BugInputRequest bugRequest, int userId)
         {
-            Bug bug = new Bug();
+            var bug = _mapper.Map<Bug>(bugRequest);
             bug.UserId = userId;
-            bug.Title = bugRequest.Title;
-            bug.Description = bugRequest.Description;
             bug.Status = BugStatus.New;
-            bug.Urgency = bugRequest.Urgency;
-            bug.Criticality = bugRequest.Criticality;
-
             await AddAsync(bug);
-            ;
+
             BugHistory bugHistory = new BugHistory();
             bugHistory.BugId = bug.Id;
             bugHistory.Action = BugAction.Input;
             bugHistory.Comment = bugRequest.Comment;
             await _bugHistoryRepository.AddAsync(bugHistory);
-            ;
         }
 
         public async Task UpdateByUserAsync(BugUpdateRequest bugUpdateRequest)

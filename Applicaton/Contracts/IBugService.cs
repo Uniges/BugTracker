@@ -1,8 +1,6 @@
 ﻿using BugTracker.Applicaton.Models;
 using BugTracker.Domain.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BugTracker.Applicaton.Contracts

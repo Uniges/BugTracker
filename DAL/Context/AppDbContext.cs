@@ -1,9 +1,7 @@
 ﻿using BugTracker.Domain.Entities;
 using BugTracker.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BugTracker.DAL.Context
 {
@@ -41,8 +39,8 @@ namespace BugTracker.DAL.Context
 
             modelBuilder.Entity<BugHistory>().HasData(new List<BugHistory>()
             {
-                new BugHistory {Id = 1, Action = BugAction.Input, BugId = 1 },
-                new BugHistory {Id = 2, Action = BugAction.Input, BugId = 2 }
+                new BugHistory {Id = 1, Action = BugAction.Input, BugId = 1, Comment = "Init back bug" },
+                new BugHistory {Id = 2, Action = BugAction.Input, BugId = 2, Comment = "Init front bug" }
             });
         }
     }

@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
+using BugTracker.Applicaton.Models;
 using BugTracker.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BugTracker.Applicaton
 {
@@ -10,7 +8,7 @@ namespace BugTracker.Applicaton
     {
         public MapperProfile()
         {
-            CreateMap<Bug, BugDto>();
+            CreateMap<BugInputRequest, Bug>();
         }
     }
 }

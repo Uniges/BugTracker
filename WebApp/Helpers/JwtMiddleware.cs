@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
@@ -53,10 +52,7 @@ namespace BugTracker.WebApp.Helpers
 
                 context.Items["User"] = await userService.GetByIdAsync(userId);
             }
-            catch
-            {
-                // todo: need to add logger
-            }
+            catch {}
         }
     }
 }

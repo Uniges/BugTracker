@@ -1,29 +1,20 @@
-﻿using AutoMapper;
-using BugTracker.Applicaton.Contracts;
+﻿using BugTracker.Applicaton.Contracts;
 using BugTracker.Applicaton.Models;
-using BugTracker.DAL.Repository;
 using BugTracker.DAL.Repository.Common;
 using BugTracker.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper.Configuration;
 using BugTracker.Applicaton.Exceptions;
 
 namespace BugTracker.Applicaton.Services
 {
     public class UserService : IUserService
     {
-        private readonly /*UserRepository*/IRepository<User> _userRepository;
-        //private readonly IMapper _mapper;
+        private readonly IRepository<User> _userRepository;
 
-        public UserService(/*IRepository<User>*/IRepository<User> userRepository/*, IMapper mapper*/)
+        public UserService(IRepository<User> userRepository)
         {
             _userRepository = userRepository;
-            //_mapper = mapper;
         }
 
         public async Task<User> AuthorizationAsync(UserRequest entity)

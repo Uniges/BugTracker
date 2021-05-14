@@ -2,7 +2,7 @@
 
 namespace BugTracker.Applicaton.Exceptions
 {
-    public class UserAuthException : Exception
+    public class BugInputPropertyException : Exception
     {
     }
 }

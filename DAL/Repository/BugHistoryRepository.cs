@@ -2,10 +2,7 @@
 using BugTracker.DAL.Repository.Common;
 using BugTracker.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BugTracker.DAL.Repository
@@ -47,33 +44,5 @@ namespace BugTracker.DAL.Repository
             context.BugHistory.Remove(bugHistory);
             await context.SaveChangesAsync();
         }
-
-        #region OLD
-        //public IEnumerable<BugHistory> All => context.BugHistory.ToList();
-
-        //public BugHistory Get(int id)
-        //{
-        //    return context.BugHistory.FirstOrDefault(e => e.Id == id);
-        //}
-
-        //public void Add(BugHistory entity)
-        //{
-        //    context.BugHistory.Add(entity);
-        //    context.SaveChanges();
-        //}
-
-        //public void Update(BugHistory entity)
-        //{
-        //    context.BugHistory.Update(entity);
-        //    context.SaveChanges();
-        //}
-
-        //public void Delete(int id)
-        //{
-        //    var bugHistory = context.BugHistory.FirstOrDefault(e => e.Id == id);
-        //    context.BugHistory.Remove(bugHistory);
-        //    context.SaveChanges();
-        //}
-        #endregion
     }
 }

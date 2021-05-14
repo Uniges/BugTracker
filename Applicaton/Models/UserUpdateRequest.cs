@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BugTracker.Applicaton.Models
+﻿namespace BugTracker.Applicaton.Models
 {
     public class UserUpdateRequest
     {

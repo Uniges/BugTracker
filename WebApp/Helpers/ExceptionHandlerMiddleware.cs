@@ -1,5 +1,4 @@
-﻿using BugTracker.Applicaton;
-using BugTracker.Applicaton.Exceptions;
+﻿using BugTracker.Applicaton.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using System.Net;
@@ -7,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace BugTracker.WebApp
 {
-    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
@@ -35,6 +33,10 @@ namespace BugTracker.WebApp
             {
                 httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
             }
+            catch (BugInputPropertyException)
+            {
+                httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            }
             catch (BugUpdateException)
             {
                 httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -42,7 +44,6 @@ namespace BugTracker.WebApp
         }
     }
 
-    // Extension method used to add the middleware to the HTTP request pipeline.
     public static class ExceptionHandlerMiddlewareExtensions
     {
         public static IApplicationBuilder UseExceptionHandlerMiddleware(this IApplicationBuilder builder)
