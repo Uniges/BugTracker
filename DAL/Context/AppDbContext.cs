@@ -2,6 +2,7 @@
 using BugTracker.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using BugTracker.DAL.Helpers;
 
 namespace BugTracker.DAL.Context
 {
@@ -27,8 +28,8 @@ namespace BugTracker.DAL.Context
         {
             modelBuilder.Entity<User>().HasData(new List<User>()
             {
-                new User {Id = 1, Name = "Alex", LastName = "Rock", Login = "Alex55", Password = "321" },
-                new User {Id = 2, Name = "Nancy", LastName = "Li", Login = "Li77", Password = "123" }
+                new User {Id = 1, Name = "Alex", LastName = "Rock", Login = "Alex55", Password = "123".HashPassword() },
+                new User {Id = 2, Name = "Nancy", LastName = "Li", Login = "Li77", Password = "321".HashPassword() }
             });
 
             modelBuilder.Entity<Bug>().HasData(new List<Bug>()

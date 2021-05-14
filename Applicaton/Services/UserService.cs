@@ -5,6 +5,7 @@ using BugTracker.Domain.Entities;
 using System.Threading.Tasks;
 using System.Linq;
 using BugTracker.Applicaton.Exceptions;
+using BugTracker.DAL.Helpers;
 
 namespace BugTracker.Applicaton.Services
 {
@@ -20,7 +21,7 @@ namespace BugTracker.Applicaton.Services
         public async Task<User> AuthorizationAsync(UserRequest entity)
         {
             var users = await _userRepository.GetAllAsync();
-            var currentUser = users.FirstOrDefault(e => e.Login == entity.Login && e.Password == entity.Password);
+            var currentUser = users.FirstOrDefault(e => e.Login == entity.Login && entity.Password.VerifyHashedPassword(e.Password));
             if (currentUser == null) throw new UserAuthException();
             return currentUser;
         }
