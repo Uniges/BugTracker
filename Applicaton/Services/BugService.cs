@@ -52,11 +52,14 @@ namespace BugTracker.Applicaton.Services
         {
             var bugs = await _bugRepository.GetAllAsync();
 
-            if (typeof(Bug).GetProperty(entity.FieldName) == null) throw new BugInputPropertyException();
+            var fieldName = entity.FieldName.ToLower();
+            fieldName = char.ToUpper(fieldName[0]) + fieldName[1..];
 
-            return entity.IsSortByDesc ?
-                bugs.OrderBy(entity.FieldName) :
-                bugs.OrderByDescending(entity.FieldName);
+            if (typeof(Bug).GetProperty(fieldName) == null) throw new BugInputPropertyException();
+
+            return !entity.IsSortByDesc ?
+                bugs.OrderBy(fieldName) :
+                bugs.OrderByDescending(fieldName);
         }
 
         public async Task CreateByUserAsync(BugInputRequest bugRequest, int userId)
